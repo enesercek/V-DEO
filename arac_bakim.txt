@@ -1,0 +1,444 @@
+create database arac_bakim;
+go 
+use arac_bakim;
+go
+create table ustalar(
+usta_no int identity (1,1)primary key,
+usta_ad varchar(20),
+usta_soyad varchar(20),
+gorev varchar(30),
+adres varchar(40),
+tel int);
+
+create table musteri(
+musteri_no int identity(200,1) primary key,
+musteri_adi varchar(20),
+musteri_soyadi varchar(20),
+adres varchar(40),
+tel int);
+
+create table arac(
+arac_no int identity (1,1)primary key,
+plaka_kodu varchar(10),
+arac_yili datetime,
+son_bakim_tarihi datetime,
+musteri_no int,
+constraint FK_arac_musteri
+foreign key (musteri_no)
+references musteri(musteri_no));
+
+create table bakim(
+bakim_no int identity(1,1) primary key, 
+bakim_ucreti money,
+bakim_baslangıc_tarih datetime,
+bakim_bitis_tarih datetime,
+arac_no int,
+usta_no int,
+constraint fk_bakim_arac
+foreign key (arac_no)
+references arac(arac_no),
+constraint fk_bakim_usta
+foreign key (usta_no)
+references ustalar(usta_no));
+
+create table yedek_parca(
+parca_no int identity(1,1)primary key,
+parca_adi varchar(30),
+parca_maaliyeti money,
+parca_satis_fiyati money,
+bakim_no int,
+constraint fk_parca_bakim
+foreign key (bakim_no)
+references bakim(bakim_no)
+);
+
+create table para(
+para_id int identity(1,1) primary key,
+bakim_no int,
+parca_no int,
+musteri_no int,
+verilen_para money,
+alinan_para money,
+
+constraint fk_para_bakim
+foreign key (bakim_no)
+references bakim(bakim_no),
+constraint fk_yedek_parca_para
+foreign key (parca_no)
+references yedek_parca(parca_no),
+constraint fk_para_musteri
+foreign key (musteri_no)
+references musteri(musteri_no));
+
+
+
+go
+
+
+
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('muhyettin','yıldız','kaporta ve  boya','arnavutköy',55289090)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('yunus','kılıç','elektrik','beylikdüzü',52567474)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('bilal','ses','mekanik','küçükçekmece',54121632)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('azim','şimşek','enjektör','silivri',54605454)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('umut','sekiz','fren sistemi','arnavutköy',51774343)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('edip','tekin','lastik','beyoğlu',54563232)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('ismail','yaşar','direksiyon','ataşehir',58770099)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('hüseyin','biber','motor ','sultangazi',55799009)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('reşit','sonsuz','soğutma ve klima  ','bakırköy',52862122)
+insert into ustalar(usta_ad,usta_soyad,gorev,adres,tel) values('mustafa','kırmızı','turbo sistemleri','büüyükçekçmece',56568787)
+
+
+
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('şeyma','tatlı','arnavutköy',54327676)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('ebubekir','çam','bağcılar',53422332)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('zeynep','ağaç','fatih',54132125)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('enes','ercek','arnavutköy',53267667)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('yıldız','tepe','başakşehir',58900990)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('nimet','aslan','şişli',54799876)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('uğur','teker','esenyurt',59879898)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('gülşen','kek','avcılar',55888787)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('azize','yay','sarıyer',57667574)
+insert into musteri(musteri_adi,musteri_soyadi,adres,tel)values('merve','topal','kadıköy',54434334)
+
+
+
+
+
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('34SYM456','2012','2024-01-01',200)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('34ABC87','2025','2024-02-03',201)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('13BT134','2024','2023-10-01',202)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('02ZHR345','2009','2024-09-30',203)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('33THY800','2018','2023-10-04',204)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('34HFT7534','2017','2024-07-01',205)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('35KCB98','2023','2024-03-01',206)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('36AET310','2000','2024-03-09',207)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('234FN2809','1994','2024-04-28',208)
+insert into arac(plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no)values('34COZ91','2019','2024-10-10',209)
+
+
+
+
+
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(2130,'2025-09-01','2025-09-10',1,1)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(5000,'2025-01-25','2025-02-03',2,2)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(1150,'2025-03-01','2025-03-09',3,3)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(980,'2025-05-01','2025-05-15',4,4)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(5960,'2025-04-20','2025-04-28',5,5)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(1250,'2025-07-01','2025-07-13',6,6)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(10000,'2025-10-04','2025-04-10',7,7)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(875,'2025-11-25','2025-11-30',8,8)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(3250,'2025-12-01','2025-12-20',9,9)
+insert into bakim(bakim_ucreti,bakim_baslangıc_tarih,bakim_bitis_tarih,arac_no,usta_no)values(4360,'2025-08-25','2025-09-03',10,10)
+
+
+
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('motor bloğu',700,1000,1)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('debriyaj seti',1250,1750,2)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('fren diski',250,500,3)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('salıncak',350,560,4)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('akü',870,1100,5)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('kaput',400,650,6)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('tampon',3000,5000,7)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('radyatör',750,1250,8)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('sigorta',650,900,9)
+insert into yedek_parca(parca_adi,parca_maaliyeti,parca_satis_fiyati,bakim_no)values('rot başı',100,325,10)
+
+
+
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(1000,2130,1,1,200)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(1750,5000,2,2,201)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(500,1150,3,3,202)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(560,980,4,4,203)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(1100,5960,5,5,204)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(650,1500,6,6,205)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(5000,15000,7,7,206)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(1250,9650,8,8,207)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(900,1780,9,9,208)
+insert into para(verilen_para,alinan_para,bakim_no,parca_no,musteri_no)values(325,600,10,10,209)
+
+
+
+
+
+
+go
+
+create procedure arac_tamir_suresi
+(
+@tarih1 datetime,
+@tarih2 datetime
+)
+as 
+begin
+select
+ datediff (day ,bakim_baslangıc_tarih,bakim_bitis_tarih)
+from bakim
+
+end
+
+
+
+go
+create procedure kar_miktarı
+(
+@para1 money,
+@para2 money
+)
+as
+begin
+select @para1-@para2
+from yedek_parca
+
+end
+
+
+
+
+
+go 
+
+create procedure yeni_kayit
+(
+
+@musteri_adi varchar(30),
+@musteri_soyadi varchar(30),
+@adres varchar(40),
+@tel int
+)
+as
+if EXISTS(SELECT * FROM musteri WHERE  @tel=tel)
+print 'bu numara kayıtlıdır'
+begin 
+insert into musteri values
+(
+
+@musteri_adi,
+@musteri_soyadi,
+@adres,
+@tel 
+
+)
+end
+
+
+
+go 
+create procedure kayit_silme
+(
+@musteri_no int
+)
+as
+begin
+delete musteri
+where @musteri_no=musteri_no
+end
+
+
+
+
+go
+create procedure toplam_kar
+as
+begin
+select sum(alinan_para)-sum(verilen_para) 
+from para 
+end
+
+
+go 
+create procedure bilgi_goster
+as 
+begin
+SELECT *
+FROM musteri
+INNER JOIN arac
+ON musteri.musteri_no = arac.musteri_no;
+
+end
+
+go 
+create procedure ortalama
+as
+begin
+SELECT AVG(bakim_ucreti)
+FROM bakim
+end
+
+
+go 
+create procedure yapilan_son_bakim
+as
+begin 
+SELECT MAX(bakim_bitis_tarih)
+FROM bakim
+end
+
+
+go 
+create procedure para_sirala
+as
+begin
+SELECT alinan_para
+FROM para
+
+GROUP BY musteri_no,alinan_para
+ORDER BY musteri_no desc
+
+end
+
+
+
+go 
+create procedure bilgi_güncelleme
+(
+@musteri_no int,
+@tel varchar(11) 
+)
+as
+begin
+UPDATE musteri
+SET tel = @tel
+WHERE @musteri_no =musteri_no;
+end
+
+go
+
+create  trigger bilgileri_getir
+on musteri
+after
+insert
+as
+begin
+select *from musteri 
+END
+
+
+
+ go
+
+create trigger guncelleme
+on musteri
+after 
+update
+as
+begin
+print 'musteri bilgileri güncellenmiştir'
+end
+
+go
+
+
+
+
+
+
+create trigger ucret_kontrol
+on bakim 
+after
+insert 
+as
+begin
+if exists (SELECT 1 FROM bakim where bakim_ucreti<0)
+print 'veresiyemiz yoktur'
+end
+go
+
+
+
+
+
+
+create trigger yeni_usta
+on ustalar
+after 
+insert
+as
+begin
+select *
+from inserted
+print 'yeni usta kaydedildi'
+end
+
+go
+
+
+
+
+
+
+create trigger plaka_kontrol
+on arac
+after 
+insert 
+as
+begin
+if exists (SELECT 1 FROM arac WHERE plaka_kodu=plaka_kodu )
+print 'bu plaka zaten kayıtlıdır'
+end
+
+
+go
+
+
+
+
+create trigger musteri_kayit_silme
+on musteri
+after
+delete 
+as
+begin
+if exists(select 1 from bakim where bakim_bitis_tarih is null)
+print 'bakım bitmediğinden müşteri silinemez'
+end
+
+
+GO
+ create trigger usta_is_birakti
+ on ustalar
+ after
+ delete
+ as
+ begin
+ select * from ustalar 
+ end
+
+
+go
+create trigger parca
+on yedek_parca
+after 
+insert
+as
+begin
+if exists (select 1 from yedek_parca where (parca_satis_fiyati-parca_maaliyeti)<0)
+print 'yapılan satışta kar yoktur'
+end
+
+
+go
+
+CREATE trigger yeniTutar
+on yedek_parca
+after
+insert 
+as
+begin
+UPDATE yedek_parca
+SET parca_satis_fiyati=parca_satis_fiyati+((parca_satis_fiyati*40)/100)
+print 'zam sonrası yeni fiyatlar';
+END
+go
+
+
+create trigger alinan_para_kontrol
+on para
+after 
+insert
+as 
+begin
+if exists (select 1 from para where verilen_para>alinan_para)
+print 'eksik ödeme alınmıştır'
+end
+
+
