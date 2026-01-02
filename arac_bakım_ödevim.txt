@@ -1,0 +1,73 @@
+1) iş ANALİZİ
+
+
+Bu proje araç bakım ve onarım servisinde gerçekleşecek tüm işlemlerin bir takibini sağlamayı amçlamaktadır 
+bu sistem sayesinde gerçekleşen işlemler daha düzenli ve güvenilir olmaktadır.
+Sistemdeki tablolar müşteri,usta,bakim,araç,yedek parça ve para olacak şekilde yazılmıştır.
+ bu veri tabanında her tablo detaylı bir şekilde  yazılmmıştır  tamire gelen müşterinin kişisel bilgileri kaydedilir
+ müşteriye ait araç bilgileri ve araç özellikleri (plaka kodu,araç yaşı ,son bakım tarihi) kaydedilir 
+ araca hangi bakım uygulanması gerektiği ve bakım özellikleri(bakim ücreti ve bakim bitiş ve başlangıç tarihleri  ) kaydedilir
+ aynı zamanda bakımda hangi yedek parçaların kullanıldığı ve parçanın maaliyeti satiş fiyatı kaydedilir 
+ usta tablosunda da ustanın kişisel bilgileri ve hangi görevi yaptığı kaydedilir
+ bir diğer önemli işlemler olan finansla ilgili kısımlar da para tablosunda (bakima ve parçaya giden para,verilen para ,alınan para ) 
+ kaydedilir
+ sistemde tamire gelen aracın hangi müşteriye ait olduğu hangi bakımların yapılması gerektiği 
+hangi ustanın görev alanına girdiği yapılan bakımda hangi yedek parçaların kullanıldığı ve de yedek parçaya ve bakima  ne kadar para verildiği
+kolaylıkla kaydedilir
+kısacasaı bu proje bir araç sanayisinde yapılan tüm işlemleri internet ortamında kaydeder, elle yazılan işlemlerde olan hataları en aza 
+indirgemeyi hedefler ve de zamandan tasarruf sağlar.
+çok büyük olmasa da orta düzey bir araç bakım servisinde kullanılır
+
+
+
+TEMEL AKTÖRLER
+usta
+müsteri
+
+
+TUTULACAK TEMEL BİLGİLER
+usta(görev)
+araç(son bakım tarihi)
+yedek parça(parça satis fiyati)
+bakım (bakım ücreti, başlangıç ve bitis tarihi)
+para(verilen ve alınan para)
+
+
+
+
+2) ER DIYAGRAMI
+VARLIKLAR (ENTITY)
+araç
+bakim
+musteri 
+para 
+ustalar
+yedek_parca
+
+
+İLİŞKİLER VE ÇOKLUK DERECELERİ
+musteri 1--------n arac
+arac 1----------n bakim
+bakim 1--------n yedek_parca
+ustalar 1--------n bakim
+bakim 1---------n para
+
+
+BİRİNCİL ANAHTARLAR
+arac(arac_no), bakim(bakim_no), musteri(musteri_no), yedek_parca(parca_no), para (para_id), ustalar(usta_no)
+
+
+YABANCI ANAHTARLAR arac (musteri_no),bakim(arac_no, usta_no), para(bakim_no, parca_no, musteri_no), yedek_parca(bakim_no)
+
+
+
+
+
+
+3)İLİŞKİSEL ŞEMA
+ustalar(usta_no PK, usta_ad,usta_soyad, gorev, adres, tel)
+arac(arac_no PK,plaka_kodu,arac_yili,son_bakim_tarihi,musteri_no FK)
+bakim(bakim_no PK,bakim_ucreti,bakim_baslangic_tarih,bakim_bitis_tarih,arac_no FK,usta_no FK)
+musteri(musteri_no PK,musteri_adi,musteri_soyadi,adres,tel)
+para(para_id PK,bakim_no FK,parca_no FK, musteri_no FK, verilen_para, alinan_para)
+yedek_parca(parca_no PK,parca_adi, parca_maaliyeti,parca_satis_fiyati,bakim_no FK)
